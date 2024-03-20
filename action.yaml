@@ -1,0 +1,30 @@
+name: 'Push to Slite'
+description: 'Use this to push content to slite, for example to sync readmes with slite documentation'
+inputs:
+  slite-doc-id:  # id of input
+    description: 'Id of slite document'
+    required: true
+  slite-block-id: # id of paragraph in slite
+    description: 'Id of paragraph within the slite document to push to'
+    required: true
+  file-path-to-upload: # path of file to push
+    description: 'Path of file to push to slite'
+    required: false
+    default: 'README.md'
+  file-title: # title to give to the block in slite
+    description: 'Title to give to the block in slite (defaults to file name)'
+    required: false
+    default: ''
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'eu.gcr.io/ingrid-head/action-slite-push:latest'
+  env:
+    SLITE_API_KEY: ${{ secrets.SLITE_API_TOKEN }}
+    DOC_ID: ${{ inputs.slite-doc-id }}
+    BLOCK_ID: ${{ inputs.slite-block-id }}
+    FILE_PATH_TO_UPLOAD: ${{ inputs.file-path-to-upload }}
+    GITHUB_SHA: ${{ github.sha }}
+    GITHUB_REPOSITORY: ${{ github.repository }} 
